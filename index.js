@@ -66,9 +66,9 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   const description = req.body.description;
   // cast duration to Number
   const duration = +req.body.duration;
-  const date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date): Date();
-  
-  const exercise = {description:description, duration:duration, date:date};
+  const date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date) : Date();
+
+  const exercise = { description: description, duration: duration, date: date };
 
   User.findByIdAndUpdate(id, {
     $push: { exercises: exercise }
@@ -82,6 +82,22 @@ app.post('/api/users/:_id/exercises', (req, res) => {
       _id: user._id
     });
   });
+});
+
+app.get('/api/users/:_id/logs', (req, res) => {
+  const id = req.params._id;
+  User.findById(id)
+    .then(user => {
+      res.send({
+        username: user.username,
+        count: user.exercises.length,
+        _id: user._id,
+        log: user.exercises
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 // COMMENT TO TEST DB CONNECTION
