@@ -50,7 +50,15 @@ app.post('/api/users', (req, res) => {
   res.json(user);
 });
 
-
+app.get('/api/users', (req, res) => {
+  User.find()
+    .then(result => {
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+})
 
 // COMMENT TO TEST DB CONNECTION
 // const listener = app.listen(process.env.PORT || 3000, () => {
