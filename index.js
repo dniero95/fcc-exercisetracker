@@ -51,7 +51,7 @@ app.post('/api/users', (req, res) => {
 });
 
 app.get('/api/users', (req, res) => {
-  User.find()
+  User.find({}, {_id:1, username:1})
     .then(result => {
       res.send(result);
     })
