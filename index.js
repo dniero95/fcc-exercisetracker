@@ -19,6 +19,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // models import
 const User = require('./models/user');
+const Exercise = require('./models/exercise');
 
 // add body parser
 const bodyParser = require('body-parser');
@@ -51,7 +52,7 @@ app.post('/api/users', (req, res) => {
 });
 
 app.get('/api/users', (req, res) => {
-  User.find({}, {_id:1, username:1})
+  User.find({}, { _id: 1, username: 1 })
     .then(result => {
       res.send(result);
     })
@@ -59,6 +60,29 @@ app.get('/api/users', (req, res) => {
       console.log(err);
     });
 })
+
+app.post('/api/users/:_id/exercises', (req, res) => {
+  const id = req.params._id;
+  const description = req.body.description;
+  // cast duration to Number
+  const duration = +req.body.duration;
+  const date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date): Date();
+  
+  const exercise = {description:description, duration:duration, date:date};
+
+  User.findByIdAndUpdate(id, {
+    $push: { exercises: exercise }
+  }, (err, user) => {
+    if (err) return handleError(err);
+    res.send({
+      username: user.username,
+      description: exercise.description,
+      duration: exercise.duration,
+      date: exercise.date,
+      _id: user._id
+    });
+  });
+});
 
 // COMMENT TO TEST DB CONNECTION
 // const listener = app.listen(process.env.PORT || 3000, () => {
