@@ -107,16 +107,18 @@ app.get('/api/users/:_id/logs', (req, res) => {
           let exerciseDate = new Date(exercise.date);
           return (exerciseDate.getTime() <= to.getTime());
         });
-        
-      // log = log.slice(0, limit);
+      
 
-      res.send({ test: 'test' });
-      // res.send({
-      //   username: user.username,
-      //   count: log.length,
-      //   _id: user._id,
-      //   log: log
-      // });
+      log = log.slice(0, limit);
+
+
+
+      res.send({
+        username: user.username,
+        count: log.length,
+        _id: user._id,
+        log: log
+      });
     })
     .catch(err => {
       console.log(err);
