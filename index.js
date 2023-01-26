@@ -19,7 +19,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // models import
 const User = require('./models/user');
-const Exercise = require('./models/exercise');
+
 
 // add body parser
 const bodyParser = require('body-parser');
@@ -107,11 +107,8 @@ app.get('/api/users/:_id/logs', (req, res) => {
           let exerciseDate = new Date(exercise.date);
           return (exerciseDate.getTime() <= to.getTime());
         });
-
-
-
-      console.log(log);
-      console.log('\n');
+        
+      // log = log.slice(0, limit);
 
       res.send({ test: 'test' });
       // res.send({
