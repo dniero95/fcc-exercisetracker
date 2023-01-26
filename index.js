@@ -64,7 +64,7 @@ app.get('/api/users', (req, res) => {
 app.post('/api/users/:_id/exercises', (req, res) => {
   const id = req.params._id;
   const description = req.body.description;
-  // cast duration to Number
+
   const duration = +req.body.duration;
   const date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date) : Date();
 
@@ -86,14 +86,40 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 
 app.get('/api/users/:_id/logs', (req, res) => {
   const id = req.params._id;
+
+  const from = new Date(req.query.from);
+
+  const to = new Date(req.query.to);
+  const limit = Number(req.query.limit);
   User.findById(id)
     .then(user => {
-      res.send({
-        username: user.username,
-        count: user.exercises.length,
-        _id: user._id,
-        log: user.exercises
-      });
+
+      let log = user.exercises
+
+      if (!(typeof from === 'undefined'))
+        log = log.filter((exercise) => {
+          let exerciseDate = new Date(exercise.date);
+          return (exerciseDate.getTime() >= from.getTime());
+        });
+
+      if (!(typeof to === 'undefined'))
+        log = log.filter((exercise) => {
+          let exerciseDate = new Date(exercise.date);
+          return (exerciseDate.getTime() <= to.getTime());
+        });
+
+
+
+      console.log(log);
+      console.log('\n');
+
+      res.send({ test: 'test' });
+      // res.send({
+      //   username: user.username,
+      //   count: log.length,
+      //   _id: user._id,
+      //   log: log
+      // });
     })
     .catch(err => {
       console.log(err);
