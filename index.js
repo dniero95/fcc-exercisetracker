@@ -4,14 +4,20 @@ const app = express()
 
 const cors = require('cors')
 require('dotenv').config()
+// import env variables 
+
+const port = process.env.PORT || 3000
+const dbUsername = process.env.DB_USER
+const dbPassword = process.env.DB_PASSWORD
 
 // db connection
 const mongoose = require('mongoose');
-const uri = 'mongodb://localhost:27017/fcc-exercisetracker';
+mongoose.set('strictQuery', true);
+const uri = `mongodb+srv://${dbUsername}:${dbPassword}@fcc-mongodb-and-mongoos.xl1syaw.mongodb.net/fcc-db-exercisetracker`;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => {
-    app.listen(3000)
-    console.log('Your app is listening on port 3000');
+    app.listen(port)
+    console.log(`Your app is listening on port ${port}\nGo to http://localhost:${port} to see the app`);
   })
   .catch(err => console.log(err));
 
