@@ -1,10 +1,11 @@
 {
-	"name": "fcc-exercise-tracker",
+	"name": "fcc-exercisetracker",
 	"version": "0.1.0",
 	"description": "A REST API project, part of Free Code Camp's curriculum",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon index.js"
+		"start": "node index.js",
+		"dev":"nodemon index.js"
 	},
 	"dependencies": {
 		"body-parser": "^1.20.1",
