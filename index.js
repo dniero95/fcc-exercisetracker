@@ -33,29 +33,18 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+// cors middleware
 app.use(cors())
 app.use(express.static('public'))
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
 
-app.post('/api/users', (req, res) => {
-  const username = req.body.username;
-  const user = new User({
-    username: username
-  })
 
-  user.save()
-    .then(result => {
-      res.send(result);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+// import routes
+const userRoutes = require('./routes/user');
 
-  res.json(user);
-});
+app.use('/api', userRoutes);
 
 app.get('/api/users', (req, res) => {
   User.find({}, { _id: 1, username: 1 })
@@ -65,7 +54,8 @@ app.get('/api/users', (req, res) => {
     .catch(err => {
       console.log(err);
     });
-})
+});
+
 
 app.post('/api/users/:_id/exercises', (req, res) => {
   const id = req.params._id;
