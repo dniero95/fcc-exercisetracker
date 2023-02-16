@@ -5,6 +5,7 @@ const router = express.Router();
 const User = require('../models/user');
 
 router.post('/users', (req, res) => {
+
   const username = req.body.username;
   const user = new User({
     username: username
@@ -39,7 +40,7 @@ router.post('/users/:_id/exercises', (req, res) => {
   let date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date) : new Date();
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const days = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   date = `${days[date.getUTCDay()]} ${months[date.getUTCMonth()]} ${(date.getUTCMonth() + 1).toString().length > 9 ? (date.getUTCMonth() + 1) : "0" + (date.getUTCMonth() + 1).toString()} ${date.getUTCFullYear()}`
   const exercise = { description: description, duration: duration, date: date };
 
@@ -71,23 +72,22 @@ router.get('/users/:_id/logs', (req, res) => {
     .then(user => {
 
       let log = user.exercises
-
-      if (!(typeof from === 'undefined'))
+      console.log(from);
+      if (!(isNaN(from)))
         log = log.filter((exercise) => {
           let exerciseDate = new Date(exercise.date);
           return (exerciseDate.getTime() >= from.getTime());
         });
-
-      if (!(typeof to === 'undefined'))
+      console.log(log);
+      if (!(isNaN(to)))
         log = log.filter((exercise) => {
           let exerciseDate = new Date(exercise.date);
           return (exerciseDate.getTime() <= to.getTime());
         });
+      if (!(isNaN(to)))
+        log = log.slice(0, limit);
 
-
-      log = log.slice(0, limit);
-
-
+      console.log(log);
 
       res.send({
         username: user.username,
