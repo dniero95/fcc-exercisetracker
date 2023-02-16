@@ -44,11 +44,15 @@ router.post('/users/:_id/exercises', (req, res) => {
         $push: { exercises: exercise }
     }, (err, user) => {
         if (err) return handleError(err);
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const date = new Date(exercise.date);
+        console.log(typeof date);
         res.send({
             username: user.username,
             description: exercise.description,
-            duration: exercise.duration,
-            date: exercise.date,
+            duration:  exercise.duration,
+            date: `${(date).getUTCDate()} ${months[(date).getUTCMonth()]} ${(date).getUTCFullYear()}`,
             _id: user._id
         });
     });
