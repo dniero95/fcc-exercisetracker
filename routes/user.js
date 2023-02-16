@@ -39,7 +39,7 @@ router.post('/users/:_id/exercises', (req, res) => {
   let date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date) : Date();
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  const days = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   date = `${days[date.getUTCDay()]} ${months[date.getUTCMonth()]} ${(date.getUTCMonth() + 1).toString().length > 9 ? (date.getUTCMonth() + 1) : "0" + (date.getUTCMonth() + 1).toString()} ${date.getUTCFullYear()}`
   const exercise = { description: description, duration: duration, date: date };
 
