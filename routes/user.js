@@ -36,7 +36,7 @@ router.post('/users/:_id/exercises', (req, res) => {
   const description = req.body.description;
 
   const duration = +req.body.duration;
-  let date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date) : Date();
+  let date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date) : new Date();
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const days = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
