@@ -50,7 +50,7 @@ router.post('/users/:_id/exercises', (req, res) => {
     if (err) return handleError(err);
 
 
-    res.send({
+    res.json({
       username: user.username,
       description: exercise.description,
       duration: exercise.duration,
@@ -89,10 +89,10 @@ router.get('/users/:_id/logs', (req, res) => {
 
       console.log(log);
 
-      res.send({
+      res.json({
+        _id: user._id,
         username: user.username,
         count: log.length,
-        _id: user._id,
         log: log
       });
     })
