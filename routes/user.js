@@ -38,10 +38,6 @@ router.post('/users/:_id/exercises', (req, res) => {
 
   const duration = +req.body.duration;
   let date = (!isNaN(Date.parse(req.body.date))) ? new Date(req.body.date) : new Date();
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  // date = `${days[date.getUTCDay()]} ${months[date.getUTCMonth()]} ${(date.getUTCMonth() + 1).toString().length > 9 ? (date.getUTCMonth() + 1) : "0" + (date.getUTCMonth() + 1).toString()} ${date.getUTCFullYear()}`
   date = date.toDateString('en-US')
   const exercise = { description: description, duration: duration, date: date };
 
@@ -69,6 +65,7 @@ router.get('/users/:_id/logs', (req, res) => {
 
   const to = new Date(req.query.to);
   const limit = Number(req.query.limit);
+  console.log(limit);
   User.findById(id)
     .then(user => {
 
@@ -85,7 +82,7 @@ router.get('/users/:_id/logs', (req, res) => {
           let exerciseDate = new Date(exercise.date);
           return (exerciseDate.getTime() <= to.getTime());
         });
-      if (!(isNaN(to)))
+      if (!(isNaN(limit)))
         log = log.slice(0, limit);
 
       console.log(log);
